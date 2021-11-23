@@ -12,7 +12,8 @@
                  [pjson "0.5.2"]
                  [ring-cors "0.1.13"]
                  [clj-time "0.15.2"]
-                 [lein-shell "0.5.0"]]
+                 [lein-shell "0.5.0"]
+                 [buddy "2.0.0"]]
   :main au-courant.core
   :plugins [[lein-ring "0.7.1"]]
   :ring {:handler au-courant.handler/app}

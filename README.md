@@ -6,10 +6,34 @@ A RESTful API to keep track of and to be up-to-date on github project releases.
 
 ## Usage
 
+### Add a user 
+Adds a user with a given name and password to the database. returns a JWT (JSON Web Token) for authentication.
+
+`[POST] /add-user`
+
+#### Parameters
+| Name | In | Type |
+| ---- | -- | ---- |
+| `name` | `query` | `string` |
+| `password` | `query` | `string` |
+
+----
+### Generate a token for a user
+Generates the token associated with an existing user. Returns 403 if the user is not found.
+
+`[GET] /generate-token`
+
+#### Parameters
+| Name | In | Type |
+| ---- | -- | ---- |
+| `name` | `query` | `string` |
+| `password` | `query` | `string` |
+
+----
 ### Get all repositories
 returns all repositories' releases info that is stored in the database.
 
-`[GET] /get-repos`
+`[GET] /repos`
 
 ----
 ### Get a specific repository

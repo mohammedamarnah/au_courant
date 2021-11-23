@@ -3,16 +3,29 @@
             [compojure.handler :refer [api]]
             [ring.middleware.cors :refer [wrap-cors]]
             [au-courant.repo-handler :as rh]
-            [compojure.route :as route]))
+            [compojure.route :as route]
+            [au-courant.auth :as auth]
+            [au-courant.db :as db]))
 
 (defroutes app-routes
-  (GET "/all-repos"
+  (GET "/repos"
     []
     (rh/all-repos))
 
   (GET "/repos/:repo-id"
     [repo-id]
     (rh/repos repo-id))
+
+  (GET "/generate-token"
+    {params :params}
+    []
+    (auth/generate-token params))
+
+  (POST "/add-user"
+    {params :params}
+    []
+    (let [user (db/add-user! params)]
+      (auth/generate-token user true)))
 
   (POST "/add-repo"
     {params :params}
@@ -26,6 +39,8 @@
   (route/resources "/")
   (route/not-found {:status 404 :body "Not Found"}))
 
-(def app (-> app-routes api (wrap-cors :access-control-allow-origin [#".*"]
-                                       :access-control-allow-methods [:get :put :post :delete])))
+(def app (-> app-routes
+             api
+             (wrap-cors :access-control-allow-origin [#".*"]
+                        :access-control-allow-methods [:get :put :post :delete])))
 

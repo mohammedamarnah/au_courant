@@ -11,8 +11,15 @@
                  [clj-http "3.12.3"]
                  [pjson "0.5.2"]
                  [ring-cors "0.1.13"]
-                 [clj-time "0.15.2"]]
+                 [clj-time "0.15.2"]
+                 [lein-shell "0.5.0"]]
   :main au-courant.core
   :plugins [[lein-ring "0.7.1"]]
   :ring {:handler au-courant.handler/app}
+  :aliases {"native"
+            ["shell"
+             "native-image" "--report-unsupported-elements-at-runtime"
+             "--initialize-at-build-time" "--no-server"
+             "-jar" "./target/${:uberjar-name:-${:name}-${:version}-standalone.jar}"
+             "-H:Name=./target/${:name}"]}
   :repl-options {:init-ns au-courant.core})

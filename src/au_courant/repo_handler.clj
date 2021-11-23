@@ -1,18 +1,20 @@
 (ns au-courant.repo-handler
-  (:require [clojure.walk :refer [keywordize-keys]]
-            [pjson.core :refer [read-str write-str]]
+  (:require [pjson.core :refer [read-str write-str]]
+            [clojure.walk :refer [keywordize-keys]]
             [clj-http.client :as client]
             [au-courant.db :as db]))
 
 (defn all-repos
   []
-  (write-str {:status 200
-              :repositories (db/get-repos)}))
+  (write-str
+   {:status 200
+    :repositories (db/get-repos)}))
 
 (defn repos
   [repo-id]
-  {:status 200
-   :repositories (db/get-repos repo-id)})
+  (write-str
+   {:status 200
+    :repositories (db/get-repos repo-id)}))
 
 (defn add-repo
   [{owner :owner repo :repo :as _}]
@@ -27,10 +29,12 @@
                                 first
                                 (select-keys [:name :tag_name :body :published_at]))]
     (db/add-repo! latest-version-info)
-    {:status 201}))
+    (write-str {:status 201
+                :repositories (db/get-repos)})))
 
 (defn mark-seen
   [repo-id]
   (db/mark-seen! repo-id)
-  {:status 200})
+  (write-str {:status 200
+              :repositories (db/get-repos repo-id)}))
 

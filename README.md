@@ -1,10 +1,12 @@
 # au_courant
 
-A Clojure library designed to ... well, that part is up to you.
+au cou·rant /ˌō ˈko͝oränt/ | adjective | Aware of what is going on; well informed.
+
+A RESTful API to keep track of and to be up-to-date on github project releases.
 
 ## Usage
 
-FIXME
+TODO: add running instructions
 
 ## License
 

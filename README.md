@@ -66,7 +66,9 @@ To compile a native image of this project run:
 
 ### PostgreSQL
 
-The database that was used in this project is PostgreSQL. To configure the database check `config/db_config.json`.
+The database that was used in this project is PostgreSQL. If you're on MacOS, install the [PostgreSQL app](https://postgresapp.com/).
+
+To configure the database check `config/db_config.json`.
 
 ```json
 {

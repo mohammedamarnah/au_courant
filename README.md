@@ -102,3 +102,11 @@ To configure the database check `config/db_config.json`.
   "dbname": "database_name"
 }
 ```
+
+## TODO
+* More on the authentication, (authenticate on every request)
+* Add tests/specs
+* Deployment configuration
+* Add a migration generator using [babashka](https://github.com/babashka/babashka)
+* ...
+

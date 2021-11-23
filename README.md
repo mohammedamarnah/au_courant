@@ -50,7 +50,7 @@ returns a repository release info with a specific `id`.
 ### Add a repository
 adds a repository release info to the database.
 
-`[POST] /add-repo?owner=#{owner}&repo=#{repo}`
+`[POST] /add-repo`
 
 #### Parameters
 | Name | In | Type |

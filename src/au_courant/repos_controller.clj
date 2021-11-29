@@ -66,7 +66,6 @@
 (defn update-repo
   [repo-name]
   (let [repo-info (db/get-repos repo-name)
-        bla (println repo-info)
         requested-repo (latest-release (:owner repo-info) (:repo_name repo-info))]
     (if (is-outdated? repo-info requested-repo)
       (do

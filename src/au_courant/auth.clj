@@ -1,6 +1,5 @@
 (ns au-courant.auth
-  (:require [pjson.core :refer [write-str]]
-            [buddy.sign.jwt :as jwt]
+  (:require [buddy.sign.jwt :as jwt]
             [au-courant.db :as db]))
 
 (defonce secret (System/getenv "SECRET"))
@@ -12,10 +11,9 @@
         credentials (select-keys (db/get-user name) [:name :password])
         user {:name name :password password}
         status (if created? 201 200)]
-    (write-str
-     (if (= user credentials)
-       {:status status :token (jwt/sign {:user name} secret)}
-       {:status 403 :token ""}))))
+    (if (= user credentials)
+      {:status status :token (jwt/sign {:user name} secret)}
+      {:status 403 :token ""})))
 
 (defn unsign-token
   [token]

@@ -29,7 +29,7 @@
     :repositories (db/get-repos repo-name)}))
 
 (defn add-repo
-  [{owner :owner repo-name :repo-name :as params}]
+  [{owner :owner repo-name :repo_name :as params}]
   (let [repo-info (-> (latest-release owner repo-name)
                       (select-keys [:name :tag_name :body :published_at]))
         formatted-time (-> repo-info

@@ -23,13 +23,13 @@ function DetailedRepo({ repoItem, updateReposFn, resetTimerFn, }) {
       </Link>
       <Text fontSize='lg'>Release:
         <Link href={repoReleaseLink} isExternal>
-          {repoItem.name}
+          {` ${repoItem.name}`}
         </Link>
       </Text>
       <Text fontSize='md'>Tag: {repoItem.tag_name}</Text>
       <Text>Published at: {repoItem.published_at}</Text>
       <Text>Release notes:</Text>
-      <Text color='black' minHeight='100px' minWidth='100px' p='3'>{repoItem.body}</Text>
+      <Text color='black' p='3'>{repoItem.body}</Text>
     </>
   )
 }

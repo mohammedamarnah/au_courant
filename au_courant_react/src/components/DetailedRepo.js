@@ -13,7 +13,7 @@ function DetailedRepo({ repoItem, updateReposFn, resetTimerFn, }) {
   }
 
   const repoLink = `https://github.com/${repoItem.owner}/${repoItem.repo_name}`;
-  const repoReleaseLink = `${repoLink}/releases/tag/${repoItem.tag}`;
+  const repoReleaseLink = `${repoLink}/releases/tag/${repoItem.tag_name}`;
 
   return (
     <>

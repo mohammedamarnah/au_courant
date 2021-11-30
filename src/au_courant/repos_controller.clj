@@ -16,7 +16,8 @@
         :body
         read-str
         keywordize-keys
-        first)))
+        (->> (sort-by :published_at)
+             last))))
 
 ;; TODO: check for error responses from github and send them back.
 

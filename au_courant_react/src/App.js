@@ -7,6 +7,7 @@ import Countdown from 'react-countdown';
 import RepoForm from './RepoForm';
 import Header from './Header';
 import Repo from './Repo';
+import { SimpleGrid, Button, ChakraProvider } from '@chakra-ui/react';
 
 function App() {
   const [repos, setRepos] = useState([]);
@@ -19,8 +20,7 @@ function App() {
       .catch(error => console.log(error));
   }, []);
 
-  const refreshRepos = (repos) => {
-    if (!repos.length) return;
+  const refreshRepos = () => {
     fetch("http://localhost:4432/refresh-repos", { method: "PUT" })
       .then(response => response.text())
       .then(data => {
@@ -47,16 +47,29 @@ function App() {
   });
 
   return (
-    <div className="App">
-      <Header />
-      <RepoForm updateRepos={setRepos} resetTimer={setTimeIndex} />
-      <Countdown
-        date={Date.now() + (1000 * 60)}
-        key={currentTimeIndex}
-        onComplete={refreshRepos(repos)}
-        renderer={countdownRenderer} />
-      {repoComponents}
-    </div>
+    <ChakraProvider>
+      <div className="App">
+        <Header />
+        <br />
+        <RepoForm updateRepos={setRepos} resetTimer={setTimeIndex} />
+        <br />
+        <Countdown
+          date={Date.now() + (1000 * 60 * 60 * 60)}
+          key={currentTimeIndex}
+          onComplete={refreshRepos}
+          renderer={countdownRenderer} />
+        <SimpleGrid
+          bg='gray.50'
+          minChildWidth='300px'
+          spacing='8'
+          p='10'
+          textAlign='center'
+          rounded='lg'
+          color='gray.400'>
+          {repoComponents}
+        </SimpleGrid>
+      </div>
+    </ChakraProvider>
   );
 }
 

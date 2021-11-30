@@ -1,13 +1,20 @@
 import './App.css';
 
+// react imports
 import { useState, useEffect } from 'react';
+
+// 3rd party libraries
+import { SimpleGrid, ChakraProvider } from '@chakra-ui/react';
+import { sortBy } from 'underscore';
+import Countdown from 'react-countdown';
+
+// helpers
 import { cleanJSON } from './Helpers';
 
-import Countdown from 'react-countdown';
-import RepoForm from './RepoForm';
-import Header from './Header';
-import Repo from './Repo';
-import { SimpleGrid, Button, ChakraProvider } from '@chakra-ui/react';
+// components
+import RepoForm from './components/RepoForm';
+import Header from './components/Header';
+import Repo from './components/Repo';
 
 function App() {
   const [repos, setRepos] = useState([]);
@@ -30,13 +37,19 @@ function App() {
       .catch(error => console.log(error));
   }
 
-  const countdownRenderer = ({ seconds }) => {
+  const countdownRenderer = ({ hours, minutes, seconds }) => {
+    let hoursStr = "";
+    let minutesStr = "";
+    if (hours) hoursStr = `${hours} hours and`
+    if (minutes) minutesStr = `${minutes} minutes and`
     return (
-      <p>Auto updating in {seconds} seconds</p>
+      <p>Auto updating in {hoursStr} {minutesStr} {seconds} seconds</p>
     )
   }
 
-  const repoComponents = repos.sort((r) => r.id).map((r) => {
+  let sortedRepos = sortBy(repos, 'id');
+  sortedRepos = sortBy(sortedRepos, 'seen_state');
+  const repoComponents = sortedRepos.map((r) => {
     return (
       <Repo
         key={r.id}
@@ -49,18 +62,28 @@ function App() {
   return (
     <ChakraProvider>
       <div className="App">
+
         <Header />
+
         <br />
-        <RepoForm updateRepos={setRepos} resetTimer={setTimeIndex} />
+
+        <RepoForm 
+          updateRepos={setRepos} 
+          resetTimer={setTimeIndex} />
+
         <br />
+
         <Countdown
           date={Date.now() + (1000 * 60 * 60 * 60)}
           key={currentTimeIndex}
           onComplete={refreshRepos}
           renderer={countdownRenderer} />
+
+        <br />
+
         <SimpleGrid
           bg='gray.50'
-          minChildWidth='300px'
+          minChildWidth='250px'
           spacing='8'
           p='10'
           textAlign='center'
@@ -68,6 +91,7 @@ function App() {
           color='gray.400'>
           {repoComponents}
         </SimpleGrid>
+
       </div>
     </ChakraProvider>
   );

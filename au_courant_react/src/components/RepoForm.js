@@ -1,8 +1,9 @@
-import './Repo.css';
 import { useState } from 'react';
-import { cleanJSON } from './Helpers';
+
+import { AddIcon, RepeatIcon } from '@chakra-ui/icons';
 import { Button, Input, Stack, Text, Box } from '@chakra-ui/react'
-import { AddIcon } from '@chakra-ui/icons';
+
+import { cleanJSON } from '../Helpers';
 
 function RepoForm({ updateRepos, resetTimer }) {
   const [owner, setOwner] = useState("");
@@ -45,6 +46,16 @@ function RepoForm({ updateRepos, resetTimer }) {
     }
   }
 
+  const refreshRepos = (event) => {
+    event.preventDefault();
+    fetch(`http://localhost:4432/refresh-repos`, { method: 'PUT' })
+    .then(response => response.text())
+    .then(data => {
+      updateRepos(JSON.parse(cleanJSON(data)).repositories);
+      resetTimer(Date.now());
+    })
+  }
+
   return (
     <form className="RepoMainForm" onSubmit={addRepo}>
       <Box display='flex' justifyContent='center'>
@@ -65,13 +76,17 @@ function RepoForm({ updateRepos, resetTimer }) {
             variant='filled'
             value={repo}
             onChange={e => setRepo(e.target.value)} />
-          <Button type="submit">
-            <AddIcon />
+          <Button type="submit" backgroundColor='#2da44e'>
+            <AddIcon color='white' />
+            <Text margin='3' color='white'>Add</Text>
+          </Button>
+          <Button onClick={refreshRepos}>
+            <RepeatIcon />
+            <Text margin='3'>Refresh</Text>
           </Button>
         </Stack>
       </Box>
     </form>
-
   );
 }
 

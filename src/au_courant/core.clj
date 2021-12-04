@@ -1,6 +1,6 @@
 (ns au-courant.core
   (:require [ring.adapter.jetty :as jetty]
-            [au-courant.handler :refer [app]])
+            [au-courant.routes :refer [app]])
   (:gen-class))
 
 (defn -main
